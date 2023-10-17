@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>HackathonX 2023</title>
+    <meta name="description" content="HackathonX 2023" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=M+PLUS+1+Code:wght@200&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <div class="loading">
+      <div class="waveWrapper">
+        <div class="wave wave1"></div>
+      </div>
+      <!-- <img src="/img/logo.svg" class="logo" /> -->
+      <div class="time-display-container">
+        <h3>The Hackathon <span id="status"></span></h3>
+        <div class="time-display">
+          <div class="days">
+            <div id="days" class="numbers">00</div>
+            days
+          </div>
+          <div class="hours">
+            <div id="hours" class="numbers">00</div>
+            hours
+          </div>
+          <div class="minutes">
+            <div id="minutes" class="numbers">00</div>
+            minutes
+          </div>
+          <div class="seconds">
+            <div id="seconds" class="numbers">00</div>
+            seconds
+          </div>
+        </div>
+      </div>
+      <div class="waveWrapper">
+        <div class="wave wave2"></div>
+      </div>
+    </div>
+    <script>
+      // function generateCounterFragment(days, hours, minutes, seconds) {
+      //   return (
+      //     '<div class="days"> \
+      //   <div class="numbers">' +
+      //     days +
+      //     '</div>days</div> \
+      // <div class="hours"> \
+      //   <div class="numbers">' +
+      //     hours +
+      //     '</div>hours</div> \
+      // <div class="minutes"> \
+      //   <div class="numbers">' +
+      //     minutes +
+      //     '</div>minutes</div> \
+      // <div class="seconds"> \
+      //   <div class="numbers">' +
+      //     seconds +
+      //     "</div>seconds</div> \
+      // </div>"
+      //   );
+      // }
+
+      const hackathonStart = new Date(2023, 09, 18, 11).getTime();
+      const hackathonEnd = new Date(2023, 09, 19, 00).getTime();
+
+      // countdown
+      let timer = setInterval(function () {
+        // get today's date
+        const today = new Date().getTime();
+        const isStart = hackathonStart > today;
+        const finished = hackathonEnd < today;
+
+        console.log(isStart);
+        // get the difference
+        let diff = (isStart ? hackathonStart : hackathonEnd) - today;
+        // math
+        let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        let hours = Math.floor(
+          (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        let seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        const statusElement = document.getElementById("status");
+        status = isStart ? "will start in..." : "will end in...";
+        if (finished) {
+          days = hours = minutes = seconds = 0;
+          status = "has ended!";
+        }
+        statusElement.innerText = status;
+
+        const daysElement = document.getElementById("days");
+        const hoursElement = document.getElementById("hours");
+        const minutesElement = document.getElementById("minutes");
+        const secondsElement = document.getElementById("seconds");
+
+        daysElement.innerText = days.toString().padStart(2, "0");
+        hoursElement.innerText = hours.toString().padStart(2, "0");
+        minutesElement.innerText = minutes.toString().padStart(2, "0");
+        secondsElement.innerText = seconds.toString().padStart(2, "0");
+        // timeDisplayElement.innerHTML = generateCounterFragment(
+        //   days,
+        //   hours,
+        //   minutes,
+        //   seconds
+        // );
+
+        //change colors randomly every 5 seconds
+        if (new Date().getSeconds() % 5 === 0) {
+          const r = document.querySelector(":root");
+          r.style.setProperty(
+            "--bgColor",
+            "#" +
+              Math.floor(Math.random() * 16777215)
+                .toString(16)
+                .padStart(6, "0")
+          );
+        }
+        if (finished) {
+          clearInterval(timer);
+          return;
+        }
+      }, 1000);
+
+      // function z(n) {
+      //   return (Math.floor(n) < 10 ? "0" : "") + Math.floor(n);
+      // }
+      // function getDateDiffHMS(date1, date2) {
+      //   let secs = (date1 - date2) / 1000;
+
+      //   var sign = secs < 0 ? "-" : "";
+      //   secs = Math.abs(secs);
+      //   return (
+      //     sign +
+      //     z((secs / 3600) | 0) +
+      //     ":" +
+      //     z(((secs % 3600) / 60) | 0) +
+      //     ":" +
+      //     z(secs % 60)
+      //   );
+      // }
+      // const intervalId = setInterval(function () {
+      //   const timeDisplayElement = document.getElementById("time-display");
+      //   timeDisplayElement.innerText = getDateDiffHMS(
+      //     new Date(2021, 10, 25, 10, 0, 0),
+      //     Date.now()
+      //   );
+      //   if (new Date().getSeconds() % 5 === 0) {
+      //     const r = document.querySelector(":root");
+      //     r.style.setProperty(
+      //       "--bgColor",
+      //       "#" +
+      //         Math.floor(Math.random() * 16777215)
+      //           .toString(16)
+      //           .padStart(6, "0")
+      //     );
+      //   }
+      // }, 1000);
+    </script>
+  </body>
+</html>
